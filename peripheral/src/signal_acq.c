@@ -12,8 +12,8 @@ uint16 ADC_DataBuffer[CHANNEL_NUM][BUFFERLENGTH] = {0};
 static uint16 ADC_counter[CHANNEL_NUM] = {0};
 uint16 All_Signal_Data[CHANNEL_NUM] = {0};
 uint16 Weight[BUFFERLENGTH] = {1,1,2,2,3,3,4,4,10,40};
-int turn_ratio= 400;
-int vertical_value=0;
+int turn_ratio= 390;
+int vertical_value=125;
 int E_T = 100;
 
 void Stop_Car();
