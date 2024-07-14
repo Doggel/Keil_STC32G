@@ -30,8 +30,8 @@ int main(void)
 	Exti_config();
 	EA = 1;
 
-	icm20602_init();
-	dl1b_init();
+//	icm20602_init();
+//	dl1b_init();
 	timer_init();
 	
 	/******************************************************************/
@@ -47,11 +47,17 @@ int main(void)
 	while(1)
 	{	
 		wireless_PID();
-		if(start_get_distance % 20 == 0 && start_get_distance != 0){
-			distance = dl1b_get_distance();			// ºÏ≤‚æ‡¿Î
-			start_get_distance = 0;
-		}	
-
+//		delay_ms(5);
+//		if(start_get_distance % 20 == 0 && start_get_distance != 0){
+//			distance = dl1b_get_distance();			// ºÏ≤‚æ‡¿Î
+//			start_get_distance = 0;
+//		}	
+		
+//		Sample_All_Chanel();
+		printf("ADC:%d,%d,%d,%d\n",\
+		All_Signal_Data[0],All_Signal_Data[1],All_Signal_Data[2],All_Signal_Data[3]);
+		delay_ms(5);
+//		
 //		printf("state:%ld,%ld\n",output_left,output_right);
 //		printf("adc_state.actual:%ld\n",adc_state.actual);
 //		Set_Motors(10000,10000);
@@ -59,8 +65,7 @@ int main(void)
 //		Screen_ShowInt(0,16,BLACK,WHITE,Get_DMA_ADC_Result(1));
 //		Screen_ShowInt(0,32,BLACK,WHITE,Get_DMA_ADC_Result(2));
 //		Screen_ShowInt(0,48,BLACK,WHITE,Get_DMA_ADC_Result(3));
-//		Sample_All_Chanel();
-//		printf("ADC:%d,%d,%d,%d,%d\n",Get_DMA_ADC_Result(0),Get_DMA_ADC_Result(1),Get_DMA_ADC_Result(2),Get_DMA_ADC_Result(3),Get_Regularized_Signal_Data(All_Signal_Data));
+//		
 
 //		Screen_ShowInt(0,64,BLACK,WHITE,Get_Regularized_Signal_Data(All_Signal_Data));
 //		printf("%d\n",Get_Regularized_Signal_Data(All_Signal_Data));

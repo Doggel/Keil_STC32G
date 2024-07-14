@@ -138,8 +138,17 @@ int32 Get_Regularized_Signal_Data(const uint16 * Data_Array)
 	angle90_flag = 0;
 	cross_flag = 0;
 	soft_turn_flag = 0;
-	if(abs((int)(Data_Array[1] - Data_Array[2])) > 850) angle90_flag = 1;
-	if((MAXI(Data_Array[1], Data_Array[2])/MINI(Data_Array[1], Data_Array[2]) > 6) && (MINI(Data_Array[1], Data_Array[2]) > 80)) angle90_flag = 1;
+	
+	if(MAXI(Data_Array[0],Data_Array[3] < 800)
+	{
+		if(abs((int)(Data_Array[1] - Data_Array[2])) > 450) angle90_flag = 1;
+	}
+	else if(MAXI(Data_Array[0],Data_Array[3] < 800 && MAXI(Data_Array[0],Data_Array[3] > 800)
+	{
+		if(abs((int)(Data_Array[1] - Data_Array[2])) > 700) angle90_flag = 1;
+	}
+	
+	if((MAXI(Data_Array[1], Data_Array[2])/MINI(Data_Array[1], Data_Array[2]) > 3) && (MINI(Data_Array[1], Data_Array[2]) > 150)) angle90_flag = 1;
 	//弯道不使用中间电感
 	if(angle90_flag){
 		if(Data_Array[1] > Data_Array[2]){
@@ -176,12 +185,14 @@ int32 Get_Regularized_Signal_Data(const uint16 * Data_Array)
 	//纵向电感
 	if(angle90_flag && !cross_flag && !soft_turn_flag){
 		P34 = 1;
-		if(Data_Array[1] > Data_Array[2]){
+		if(abs((int)(Data_Array[1] - Data_Array[2])) > 500)
+		{
+			if(Data_Array[1] > Data_Array[2]){
 			diff2 = Data_Array[1]-Data_Array[2];
 			sum2 = Data_Array[1]+Data_Array[2];
 			mid_answer = (diff2*turn)/(sum2*sum2);
 			mid_answer = mid_answer * turn_ratio / 100;
-		}else{
+			}else{
 			diff2 = Data_Array[2]-Data_Array[1];
 			sum2 = Data_Array[1]+Data_Array[2];
 			mid_answer = (diff2*turn)/(sum2*sum2);
@@ -189,10 +200,12 @@ int32 Get_Regularized_Signal_Data(const uint16 * Data_Array)
 			mid_answer = - mid_answer;
 		}
 		answer += mid_answer;
+		}
+		
 	}else{
 		P34 = 0;
 	}
-	
+
 	//横向电感
 	if(abs((int)(Data_Array[0] - Data_Array[3])) > 100){
 		if(Data_Array[0] > Data_Array[3]){
@@ -235,7 +248,7 @@ int32 Get_Regularized_Signal_Data(const uint16 * Data_Array)
 //		if(leave_island_finish == 1 && enter_island_finish == 1) enter_island_finish = leave_island_finish = 0; //重置环岛标志
 		//冲出赛道停车
 	if(Data_Array[0]+Data_Array[1]+Data_Array[2]+Data_Array[3] < 200){
-		if(enter_angle90_begin == 1) TargetSpeed = targetspeed_backup - 300;	//仍处于直角转弯状态
+		if(enter_angle90_begin == 1) TargetSpeed = targetspeed_backup;	//仍处于直角转弯状态 - 300
 		else Stop_Car();
 	}else{
 		if(start_car_signal == 1) TargetSpeed = targetspeed_backup;

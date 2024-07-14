@@ -208,7 +208,7 @@ void PID_Adjust(void)
 		
 		
 		// 显示三组PID参数
-		printf("ADC:%ld,%ld,%ld\nSpeed:%ld\nTurn:%d\nVert:%d\n\n",\
+		printf("ADC:%ld,%ld,%ld,%ld,%d,%d\n",\
 		PID_adc.kp, 		PID_adc.ki, 		PID_adc.kd,\
 		TargetSpeed,		turn_ratio,			E_T);
 		
