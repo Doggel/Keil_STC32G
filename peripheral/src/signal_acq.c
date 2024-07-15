@@ -12,7 +12,7 @@ uint16 ADC_DataBuffer[CHANNEL_NUM][BUFFERLENGTH] = {0};
 static uint16 ADC_counter[CHANNEL_NUM] = {0};
 uint16 All_Signal_Data[CHANNEL_NUM] = {0};
 uint16 Weight[BUFFERLENGTH] = {1,1,2,2,3,3,4,4,10,40};
-int turn_ratio= 400;
+int turn_ratio= 200;
 int vertical_value=0;
 int E_T = 100;
 
@@ -140,12 +140,10 @@ int32 Get_Regularized_Signal_Data(const uint16 * Data_Array)
 	soft_turn_flag = 0;
 	
 	if(abs((int)(Data_Array[1] - Data_Array[2])) > 850 && abs((int)(Data_Array[0] - Data_Array[3])) < 1800) angle90_flag = 1;
-	if(MAXI(Data_Array[0],Data_Array[3]) < 1300 && MAXI(Data_Array[0],Data_Array[3]) > 1000){
-		if(MAXI(Data_Array[0],Data_Array[3]) > MINI(Data_Array[1],Data_Array[2])){
-			if(abs((int)(Data_Array[1] - Data_Array[2])) > 450) angle90_flag = 1;
-		}
+	if(MAXI(Data_Array[0],Data_Array[3]) < 1300 && MAXI(Data_Array[0],Data_Array[3]) > 650 && Data_Array[0] > 420){
+		if(abs((int)(Data_Array[1] - Data_Array[2])) > 550) angle90_flag = 1;
 	}
-	if(MINI(Data_Array[1],Data_Array[2]) > 1600){
+	if(MINI(Data_Array[1],Data_Array[2]) > 1500 && Data_Array[0] > 420){
 		if(abs((int)(Data_Array[1] - Data_Array[2])) > 650) angle90_flag = 1;
 	}
 	if((MAXI(Data_Array[1], Data_Array[2])/MINI(Data_Array[1], Data_Array[2]) > 4) && (MINI(Data_Array[1], Data_Array[2]) > 200)) angle90_flag = 1;
@@ -153,14 +151,14 @@ int32 Get_Regularized_Signal_Data(const uint16 * Data_Array)
 	if(angle90_flag){
 		if(Data_Array[1] > Data_Array[2]){
 			if(Data_Array[1] < 1700){
-				if(abs((int)(Data_Array[0] - Data_Array[1])) < 480) soft_turn_flag = 1;
-				if(abs((int)(Data_Array[2] - Data_Array[3])) < 260 && abs((int)(Data_Array[2] - Data_Array[3])) > 80) soft_turn_flag = 1;
+				if(abs((int)(Data_Array[0] - Data_Array[1])) < 340) soft_turn_flag = 1;
+				if(abs((int)(Data_Array[2] - Data_Array[3])) < 230 && abs((int)(Data_Array[2] - Data_Array[3])) > 80) soft_turn_flag = 1;
 			}
 		}
 		else{
-			if(Data_Array[2] < 1300){
-				if(abs((int)(Data_Array[2] - Data_Array[3])) < 480) soft_turn_flag = 1;
-				if(abs((int)(Data_Array[0] - Data_Array[1])) < 260 && abs((int)(Data_Array[0] - Data_Array[1])) > 80) soft_turn_flag = 1;
+			if(Data_Array[2] < 1600){
+				if(abs((int)(Data_Array[2] - Data_Array[3])) < 340) soft_turn_flag = 1;
+				if(abs((int)(Data_Array[0] - Data_Array[1])) < 230 && abs((int)(Data_Array[0] - Data_Array[1])) > 80) soft_turn_flag = 1;
 			}
 		}
 	}
